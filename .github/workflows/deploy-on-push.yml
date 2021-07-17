@@ -27,9 +27,9 @@ jobs:
           npm run build
 
       - name: Upload to S3 as artifact
-        uses: medlypharmacy/s3-artifacts-action@master
+        uses: shallwefootball/s3-upload-action@master
         with:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID}}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
           aws_s3_bucket_name: ${{ secrets.S3_BUCKET_NAME }}
-          source_path: './dist'
+          source_dir: 'dist'
