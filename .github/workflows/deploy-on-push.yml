@@ -1,0 +1,40 @@
+name: deploy-on-push
+
+on:
+  push:
+    branches: [main]
+
+  workflow_dispatch:
+    branches: [qa_branch]
+
+env:
+  ARTIFACT_NAME: 'modsim.artifact'
+  COMPRESSED_ARTIFACT_NAME: 'modsim.artifact.zip'
+  ARTIFACT_RETENTION_DAYS: 1
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+
+      - name: Build Step
+        shell: bash
+        run: |
+          npm ci
+          npm run build
+          ls -la
+          7z a $COMPRESSED_ARTIFACT_NAME dist/*
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: ${{ env.COMPRESSED_ARTIFACT_NAME }}
+          retention-days: 1
