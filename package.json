@@ -1,0 +1,33 @@
+{
+  "name": "modsim",
+  "version": "1.0.0",
+  "description": "A repository with all the excercises and labs for the modelation and simulation class",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode=production --config webpack.config.js",
+    "dev": "webpack serve --mode=development "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Byronamh/modsim.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Byronamh/modsim/issues"
+  },
+  "homepage": "https://github.com/Byronamh/modsim#readme",
+  "dependencies": {
+    "bootstrap": "^5.0.2",
+    "chart.js": "^3.4.1"
+  },
+  "devDependencies": {
+    "html-webpack-plugin": "^5.3.2",
+    "sass": "^1.35.2",
+    "sass-loader": "^12.1.0",
+    "webpack": "^5.44.0",
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-server": "^3.11.2"
+  }
+}
