@@ -7,10 +7,6 @@ on:
   workflow_dispatch:
     branches: [qa_branch]
 
-env:
-  ARTIFACT_NAME: 'modsim.artifact'
-  COMPRESSED_ARTIFACT_NAME: 'modsim.artifact.zip'
-  ARTIFACT_RETENTION_DAYS: 1
 
 jobs:
   build:
@@ -29,12 +25,11 @@ jobs:
         run: |
           npm ci
           npm run build
-          ls -la
-          7z a $COMPRESSED_ARTIFACT_NAME dist/*
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v2
+      - name: Upload to S3 as artifact
+        uses: medlypharmacy/s3-artifacts-action@master
         with:
-          name: ${{ env.ARTIFACT_NAME }}
-          path: ${{ env.COMPRESSED_ARTIFACT_NAME }}
-          retention-days: 1
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID}}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+          aws_s3_bucket_name: ${{ secrets.S3_BUCKET_NAME }}
+          source_path: './dist'
