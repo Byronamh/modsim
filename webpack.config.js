@@ -1,9 +1,9 @@
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path');
 const fs = require('fs');
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const directoryPath = path.join(__dirname, '/src/labs');
-
 
 const folderScanPromise = new Promise((res, rej) => {
     const chunks = [];
@@ -38,7 +38,11 @@ module.exports = () => folderScanPromise.then(({chunks, entries}) => {
             new HtmlWebpackPlugin({
                 filename: './index.html',
                 template: path.join(__dirname, '/src/static/index.html'),
-                chunks:['main']
+                chunks: ['main']
+            }),
+            new MiniCssExtractPlugin({
+                filename: "[name]/styles.css",
+                chunkFilename: "[id].css"
             })
         ],
         devServer: {
@@ -47,5 +51,17 @@ module.exports = () => folderScanPromise.then(({chunks, entries}) => {
             port: 9000,
             open: true
         },
+        module: {
+            rules: [
+                {
+                    test: /\.s?css$/,
+                    use: [
+                        MiniCssExtractPlugin.loader,
+                        "css-loader",
+                        "sass-loader"
+                    ]
+                }
+            ]
+        }
     }
 })
